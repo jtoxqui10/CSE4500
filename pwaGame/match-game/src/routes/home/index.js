@@ -1,11 +1,22 @@
 import { h } from 'preact';
+import { route } from "preact-router";
 import style from './style.css';
 
-const Home = () => (
-	<div class={style.home}>
-		<h1>Home</h1>
-		<p>This is the Home component.</p>
-	</div>
-);
+export default class Home extends Component {
+	startGame = () => {
+		route("/game");
+	};
 
-export default Home;
+	render() {
+		return (
+			<div class={style.home}>
+				<div class={style.head}>
+					<h2>MATCH GAME</h2>
+			</div>
+			<button class={style.button} onClick={this.startGame}>
+				NEW GAME
+			</button>
+			</div>
+		);
+	}
+}
