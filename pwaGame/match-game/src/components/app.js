@@ -1,24 +1,31 @@
-import { h } from 'preact';
 import { Component } from "preact";
-import { Router } from 'preact-router';
+import { Router } from "preact-router";
 
-import Header from './header';
+import Home from "../routes/home";
+import Game from "../routes/game";
+import Win from "../routes/win";
 
-// Code-splitting is automated for `routes` directory
-import Home from '../routes/home';
-import Game from '../routes/game';
-import Win from '../routes/win';
-//import Profile from '../routes/profile';
+/**
+ * helper function to generate a schuffled array of cards
+ */
+function generateGridCards() {
+  const emojis = ["🚀", "😺", "🐶", "🏈", "📦", "🙊"];
 
-const App = () => (
-	<div id="app">
-		<Header />
-		<Router>
-			<Home path="/" />
-			<Profile path="/profile/" user="me" />
-			<Profile path="/profile/:user" />
-		</Router>
-	</div>
-)
+  return [...emojis, ...emojis]
+    .sort(() => Math.random() - Math.random())
+    .map((emoji, idx) => ({ key: idx, emoji }));
+}
 
-export default App;
+export default class App extends Component {
+  render() {
+    return (
+      <div id="app">
+        <Router onChange={this.handleRoute}>
+          <Home path="/" />
+          <Game path="/game" cards={generateGridCards()} />
+          <Win path="/win" />
+        </Router>
+      </div>
+    );
+  }
+}
